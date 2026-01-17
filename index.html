@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>Seashell Location Page</title>
+<style>
+body {
+  margin:0;
+  font-family: sans-serif;
+  background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e")
+              no-repeat center center fixed;
+  background-size: cover;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.55);
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+}
+
+.card {
+  position:relative;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border-radius:20px;
+  padding:30px;
+  text-align:center;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
+
+#content {
+  display:none;
+}
+
+button {
+  padding:10px 22px;
+  border:none;
+  border-radius:10px;
+  background:#00e5ff;
+  font-size:16px;
+  cursor:pointer;
+}
+
+#message {
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay"></div>
+
+<div class="card">
+  <h2>🐚 خوش آمدید</h2>
+  <p>برای مشاهده محتوای سایت، لطفاً اجازه دسترسی به موقعیت را بدهید</p>
+  <button onclick="requestLocation()">فعال‌سازی موقعیت</button>
+  <div id="message"></div>
+
+  <div id="content">
+    <h3>🌊 محتوای ویژه فعال شد</h3>
+    <p>شما با موفقیت موقعیت را تأیید کردید</p>
+    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470"
+         style="width:100%;border-radius:15px;margin-top:10px;">
+  </div>
+</div>
+
+<script>
+function requestLocation() {
+  const msg = document.getElementById("message");
+  const content = document.getElementById("content");
+
+  msg.innerHTML = "در حال درخواست اجازه موقعیت...";
+
+  if (!navigator.geolocation) {
+    msg.innerHTML = "مرورگر شما از موقعیت پشتیبانی نمی‌کند";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      msg.innerHTML = "✅ موقعیت دریافت شد";
+      content.style.display = "block";
+    },
+    () => {
+      msg.innerHTML = "❌ بدون اجازه موقعیت، نمایش محتوا ممکن نیست";
+      content.style.display = "none";
+    }
+  );
+}
+
+// درخواست پاپاپ لوکیشن بلافاصله بعد از لود صفحه
+window.onload = () => {
+  setTimeout(requestLocation, 800);
+};
+</script>
+
+</body>
+</html>
